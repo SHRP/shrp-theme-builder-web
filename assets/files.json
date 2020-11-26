@@ -1,0 +1,110 @@
+{
+  "accRes": [
+    "backspace.png",
+    "backup.png",
+    "c_3dot_action.png",
+    "c_advanced.png",
+    "c_applyCustomTheme.png",
+    "c_ch755.png",
+    "c_chmod.png",
+    "c_clear_input.png",
+    "c_copy.png",
+    "c_cut.png",
+    "c_dateSort.png",
+    "c_displayTxt.png",
+    "c_download_mode.png",
+    "c_editTxt.png",
+    "c_edl_mode.png",
+    "c_epicxsort.png",
+    "c_file_back.png",
+    "c_file_delete2.png",
+    "c_line.png",
+    "c_menu.png",
+    "c_minus.png",
+    "c_misc_panel.png",
+    "c_ok.png",
+    "c_paste.png",
+    "c_plus.png",
+    "c_power_off.png",
+    "c_reboot_to_bootloader.png",
+    "c_reboot_to_recovery.png",
+    "c_reboot_to_system.png",
+    "c_reload.png",
+    "c_removeLine.png",
+    "c_rename.png",
+    "c_restoreDefault.png",
+    "checkbox_true.png",
+    "enter.png",
+    "file.png",
+    "folder.png",
+    "handle.png",
+    "kb_arrow_down.png",
+    "kb_arrow_left.png",
+    "kb_arrow_right.png",
+    "kb_arrow_up.png",
+    "kb_show.png",
+    "radio_true.png",
+    "shift.png",
+    "shift_fill.png",
+    "space.png"
+  ],
+  "bgRes": [
+    "c_panel_copy_log.png",
+    "c_panel_reboot_recovery.png",
+    "c_panel_reboot_system.png",
+    "c_panel_wipe_cache.png",
+    "c_power_menu_bg.png",
+    "c_splash_bg.png"
+  ],
+  "bgRes2": [
+    "c_about_tile.png",
+    "c_circle4.png",
+    "c_factory_reset.png",
+    "checkbox_false.png",
+    "radio_false.png"
+  ],
+  "dIco": {
+    "files": [
+      "c_adb.png",
+      "c_dashboard_about.png",
+      "c_dashboard_addon.png",
+      "c_dashboard_advanced.png",
+      "c_dashboard_backup.png",
+      "c_dashboard_filemanager.png",
+      "c_dashboard_flash.png",
+      "c_dashboard_lang.png",
+      "c_dashboard_lock.png",
+      "c_dashboard_magisk.png",
+      "c_dashboard_more.png",
+      "c_dashboard_mount.png",
+      "c_dashboard_reboot.png",
+      "c_dashboard_restore.png",
+      "c_dashboard_settings.png",
+      "c_dashboard_terminal.png",
+      "c_dashboard_wipe.png",
+      "c_log.png",
+      "c_mod.png",
+      "c_sd_part.png",
+      "c_selinux.png"
+    ],
+    "folders": [
+      "dt1",
+      "dt2",
+      "dt3",
+      "dt4"
+    ]
+  },
+  "nIco": {
+    "files": [
+      "back.png",
+      "console.png",
+      "home.png"
+    ],
+    "folders": [
+      "nt1",
+      "nt2",
+      "nt3",
+      "nt4"
+    ]
+  }
+}
