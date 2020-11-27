@@ -52,7 +52,7 @@ export default {
   data: () => ({
     isLoaded: false,
     genInfo: {},
-    status: 'Downloading assets',
+    status: '',
     ready: false,
     sub: true,
     progress: 0,
@@ -60,6 +60,8 @@ export default {
   }),
   methods: {
     async submit (fields) {
+      this.status = 'Getting ready'
+      // this.status = 'Downloading assets'
       document.getElementById('toBeDisabled').disabled = true
       document.getElementById('toBeDisabled').style.display = 'none'
       this.ready = true
@@ -109,15 +111,17 @@ export default {
         }
       }
 
-      const folderValues = Object.values(folders)
-      const folderLength = folderValues.length
-      for (let i = 0; i < folderLength; i++) {
-        await this.preloadAssets(folderValues[i].name, folderValues[i].files)
-        this.progressClac(i, folderLength, 25)
-      }
-      this.last = this.progress
-      this.status = 'Done with downloading assets'
-      await this.delay(1000)
+      // Lets not preload assets for now
+      //
+      // const folderValues = Object.values(folders)
+      // const folderLength = folderValues.length
+      // for (let i = 0; i < folderLength; i++) {
+      //   await this.preloadAssets(folderValues[i].name, folderValues[i].files)
+      //   this.progressClac(i, folderLength, 25)
+      // }
+      // this.last = this.progress
+      // this.status = 'Done with downloading assets'
+      // await this.delay(1000)
       this.status = 'Editing assets'
       let z = 0
       for (let i = 0; i < Object.values(folders).length; i++) {
@@ -132,7 +136,7 @@ export default {
             await this.draw(folder.color, filePath, file, folder.gradient, fields.extra.gradient.type, folder.color2)
           }
 
-          this.progressClac(z, totalFiles, 50)
+          this.progressClac(z, totalFiles, 75)
           z++
         }
       }
@@ -155,19 +159,19 @@ export default {
       this.progress = this.last + Math.trunc(((current + 1) / total) * outOf)
       return true
     },
-    async preloadAssets (folder, imgs) {
-      for (let i = 0; i < imgs.length; i++) {
-        this.isLoaded = false
-        const image = document.getElementById('srcImage')
-        const file = imgs[i]
-        const filePath = '/files/' + folder + '/' + file
-        image.src = filePath
-        while (!this.isLoaded) {
-          await this.delay(100)
-        }
-      }
-      return true
-    },
+    // async preloadAssets (folder, imgs) {
+    //   for (let i = 0; i < imgs.length; i++) {
+    //     this.isLoaded = false
+    //     const image = document.getElementById('srcImage')
+    //     const file = imgs[i]
+    //     const filePath = '/files/' + folder + '/' + file
+    //     image.src = filePath
+    //     while (!this.isLoaded) {
+    //       await this.delay(100)
+    //     }
+    //   }
+    //   return true
+    // },
     onImgLoad () {
       this.isLoaded = true
     },

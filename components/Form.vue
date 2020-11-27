@@ -32,9 +32,9 @@
               required
               readonly
             >
-              <template v-slot:append>
+              <template #append>
                 <v-menu v-model="value.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-btn
                       small
                       icon
@@ -111,9 +111,9 @@
             readonly
             class="my-4"
           >
-            <template v-slot:append>
+            <template #append>
               <v-menu v-model="value.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                <template v-slot:activator="{ on }">
+                <template #activator="{ on }">
                   <v-btn
                     small
                     icon
@@ -153,7 +153,7 @@
             hide-details
           >
             <v-tooltip v-for="(type, key) in gradientType" :key="key" bottom>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-radio
                   :label="key"
                   :value="key"
@@ -198,9 +198,9 @@
             readonly
             class="my-4"
           >
-            <template v-slot:append>
+            <template #append>
               <v-menu :v-model="i === 0 ? value.menu : tempMenu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                <template v-slot:activator="{ on }">
+                <template #activator="{ on }">
                   <v-btn
                     small
                     icon
