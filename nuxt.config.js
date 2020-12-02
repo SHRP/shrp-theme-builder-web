@@ -3,6 +3,14 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   ssr: false,
   target: 'static',
+  loadingIndicator: {
+    name: 'folding-cube',
+    color: '#21CEF5',
+    background: '#121212'
+  },
+  loading: {
+    color: '#21CEF5'
+  },
   head: {
     titleTemplate: 'SHRP Theme Builder',
     title: 'SHRP Theme Builder',
