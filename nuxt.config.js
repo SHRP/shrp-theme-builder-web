@@ -39,6 +39,7 @@ export default {
     '@nuxtjs/eslint-module',
     ['@nuxtjs/vuetify', {treeShake: true}]
   ],
+  generate: { fallback: '404.html' },
   vuetify: {
     icons: {
       iconfont: 'mdi'
