@@ -63,9 +63,9 @@
           </div>
           <div v-else>
             <v-text-field
+              v-model="value.input"
               :rules="nameRules"
               :label="value.name"
-              :v-model="value.input"
               :value="value.input"
               outlined
               required
@@ -85,7 +85,7 @@
             hide-details
           >
             <v-radio
-              v-for="type in randomType"
+              v-for="type in formInfo.randomType"
               :key="type"
               :label="type.toString()"
               :value="type"
@@ -94,13 +94,13 @@
         </v-col>
         <v-col
           v-for="(value, key, i) in fields.random"
+          v-show="i + 1 >= 3 ? fields.extra.random.type === 6 : true"
           :key="key"
           cols="12"
           md="4"
           class="mb-0"
         >
           <v-text-field
-            v-show="i + 1 >= 3 ? fields.extra.random.type === 6 : true"
             v-model="value.input"
             :value="value.input"
             :label="value.name"
@@ -152,7 +152,7 @@
             row
             hide-details
           >
-            <v-tooltip v-for="(type, key) in gradientType" :key="key" bottom>
+            <v-tooltip v-for="(type, key) in formInfo.gradientType" :key="key" bottom>
               <template #activator="{ on, attrs }">
                 <v-radio
                   :label="key"
@@ -173,7 +173,7 @@
             hide-details
           >
             <v-radio
-              v-for="type in gradientAccent"
+              v-for="type in formInfo.gradientAccent"
               :key="type"
               :label="type"
               :value="type.toLowerCase()"
@@ -241,7 +241,7 @@
             class="mt-0"
           >
             <v-radio
-              v-for="(style, i) in dIco"
+              v-for="(style, i) in formInfo.dIco"
               :key="style"
               :label="style"
               :value="i+1"
@@ -266,7 +266,7 @@
             class="mt-0"
           >
             <v-radio
-              v-for="(style, i) in nIco"
+              v-for="(style, i) in formInfo.nIco"
               :key="style"
               :label="style"
               :value="i+1"
@@ -295,20 +295,12 @@
 </template>
 
 <script>
+import formInfo from '~/assets/formInfo.json'
 
 export default {
   data: () => ({
+    formInfo,
     tempMenu: false,
-    dIco: ['Default', 'Material', 'Plain', 'Plain Large'],
-    nIco: ['Pie', 'Nxt-Bit', 'Samsung', 'Custom'],
-    gradientType: {
-      LR: 'Left to Right',
-      TB: 'Top to Bottom',
-      TRBL: 'Top-Right to Bottom-Left',
-      TLBR: 'Top-Left to Bottom-Right'
-    },
-    randomType: [3, 6],
-    gradientAccent: ['Primary', 'Secondary'],
     valid: false,
     nameRules: [
       v => !!v || 'Name is required'

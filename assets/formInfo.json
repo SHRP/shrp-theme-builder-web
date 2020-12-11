@@ -1,0 +1,12 @@
+{
+    "dIco": ["Default", "Material", "Plain", "Plain Large"],
+    "nIco": ["Pie", "Nxt-Bit", "Samsung", "Custom"],
+    "gradientType": {
+      "LR": "Left to Right",
+      "TB": "Top to Bottom",
+      "TRBL": "Top-Right to Bottom-Left",
+      "TLBR": "Top-Left to Bottom-Right"
+    },
+    "randomType": [3, 6],
+    "gradientAccent": ["Primary", "Secondary"]
+}
