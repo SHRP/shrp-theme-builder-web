@@ -37,7 +37,7 @@ export default {
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module',
-    ['@nuxtjs/vuetify', {treeShake: true}]
+    ['@nuxtjs/vuetify', { treeShake: true }]
   ],
   generate: { fallback: '404.html' },
   vuetify: {
