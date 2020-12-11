@@ -30,10 +30,14 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/shrp-logo.png' }
     ]
   },
+  // Reduces vuetify size apparently
+  build: {
+    extractCSS: true
+  },
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    ['@nuxtjs/vuetify', {treeShake: true}]
   ],
   vuetify: {
     icons: {
