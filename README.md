@@ -1,20 +1,37 @@
+<p align="center">
+    <img alt="shrp logo" src="./static/shrp-logo.png" />
+</p>
+
 # shrp-theme-builder
 
-## Build Setup
+Pre-install:
+
+- nodejs 15+
+- [yarn](https://yarnpkg.com/getting-started/install)
 
 ```bash
-# install dependencies
+
+# Install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# Running in a locally
 $ yarn dev
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+# Auto fixing simple eslint warns/errors
+$ yarn lint:fix
 
-# generate static project
+# Analyze build size
+$ yarn analyze
+
+# Generate static build
 $ yarn generate
+
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+Folder structure:
+
+- assets/ - Local assets that are being used by pages and componenets (incl. json data, helper methods)
+- components/ - Components used by pages (incl. Formm Logo)
+- layout/ - Page layouts (incl. Default, error)
+- pages/ - Pages accessible through SPA (incl. Index)
+- static/ - Static files that get copied after generate is done (incl. assets, logo)
