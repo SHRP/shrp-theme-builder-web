@@ -292,7 +292,7 @@ function getSubBg (color) {
   r = adjustColorVal(r + inc)
   g = adjustColorVal(g + inc)
   b = adjustColorVal(b + inc)
-  return r.toString(16) + g.toString(16) + b.toString(16)
+  return '#' + r.toString(16) + g.toString(16) + b.toString(16)
 }
 
 //   Calculates the current progressbar value
