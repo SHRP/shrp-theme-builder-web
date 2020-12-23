@@ -1,3 +1,5 @@
+import formInfo from './formInfo.json'
+
 // Splits hex into its #RRGGBBAA values
 // takes color string
 // returns an array of strings
@@ -158,7 +160,25 @@ function generateFolderJson (files, fields, genInfo) {
       color: fields.normal.accColor.input,
       gradient: fields.extra.gradient.enabled,
       color2: fields.gradient.accColor2.input
+    },
+    batteryIco: {
+      name: `battery/${formInfo.batteryIco[fields.icons.batteryIco - 1]}`,
+      files: files.battery.files,
+      color: fields.normal.accColor.input,
+      gradient: fields.extra.gradient.enabled,
+      color2: fields.gradient.accColor2.input
+    },
+    dynamic: {
+      name: `dynamic/${isDark(fields.normal.bgColor.input) ? 'light' : 'dark'}`,
+      files: files.dynamic.files,
+      color: 'transparent'
+    },
+    dBgType: {
+      name: `dBgType/dbg${fields.icons.dBgType}`,
+      files: files.dBgType.files,
+      color: fields.dashboardIcoBg.input
     }
+
   }
 }
 
@@ -204,6 +224,77 @@ function generateStProp (subFields, gradient, gradientAccentType, gradientSecond
   return [props.join('\n'), genInfo]
 }
 
+function getThemeConfig (data) {
+  return `<?xml version="1.0"?>
+<recovery>
+  <variables>
+    <variable name="primaryColor" value="${data.primaryColor}"/>
+    <variable name="secondaryColor" value="${data.secondaryColor}"/>
+    <variable name="accentColor" value="${data.accentColor}"/>
+    <variable name="backgroundColor" value="${data.backgroundColor}"/>
+    <variable name="subBackgroundColor" value="${data.subBackgroundColor}"/>
+    <variable name="navbarColor" value="${data.navbarColor}"/>
+    <variable name="dashboardTextColor" value="${data.dashboardTextColor}"/>
+    <!--Toggles-->
+    <variable name="batteryBarEnabled" value="${data.batteryBarEnabled}"/>
+    <variable name="statusBarEnabled" value="${data.statusBarEnabled}"/>
+    <variable name="batteryIconEnabled" value="${data.batteryIconEnabled}"/>
+    <variable name="batteryPercentageEnabled" value="${data.batteryPercentageEnabled}"/>
+    <variable name="clockEnabled" value="${data.clockEnabled}"/>
+    <variable name="centeredClockEnabled" value="${data.centeredClockEnabled}"/>
+    <variable name="cpuTempEnabled" value="${data.cpuTempEnabled}"/>
+    <variable name="roundedCornerEnabled" value="${data.roundedCornerEnabled}"/>
+    <variable name="navbarBackgroundEnabled" value="${data.navbarBackgroundEnabled}"/>
+    <variable name="dashboardSubTintEnabled" value="${data.dashboardSubTintEnabled}"/>
+    <variable name="dashboardTextColorEnabled" value="${data.dashboardTextColorEnabled}"/>
+    <!--ComponentTypes-->
+    <variable name="navbarType" value="69"/>
+    <variable name="batteryType" value="69"/>
+    <variable name="dashboardIconType" value="69"/>
+    <variable name="roundedcornerType" value="69"/>
+  </variables>
+</recovery>
+  `
+}
+
+// Checks if that color is Dark or not
+function isDark (x) {
+  const r = parseInt('0x' + x.substring(1, 3))
+  const g = parseInt('0x' + x.substring(3, 5))
+  const b = parseInt('0x' + x.substring(5, 7))
+  let tHold = 0
+  tHold = r > 180 ? tHold + 1 : tHold
+  tHold = g > 180 ? tHold + 1 : tHold
+  tHold = b > 180 ? tHold + 1 : tHold
+  return tHold > 1 ? 0 : 1
+}
+
+// Adjust color val if the color is greater than 255 or less than 0
+function adjustColorVal (x) {
+  if (x > 127 && x > 255) {
+    return 255
+  } else if (x < 128 && x < 0) {
+    return 0
+  } else {
+    return x
+  }
+}
+
+// Genarate subBg color from background color
+function getSubBg (color) {
+  let r = parseInt('0x' + color.substring(1, 3))
+  let g = parseInt('0x' + color.substring(3, 5))
+  let b = parseInt('0x' + color.substring(5, 7))
+  let inc = 18
+  if (!isDark(color)) {
+    inc = -18
+  }
+  r = adjustColorVal(r + inc)
+  g = adjustColorVal(g + inc)
+  b = adjustColorVal(b + inc)
+  return r.toString(16) + g.toString(16) + b.toString(16)
+}
+
 //   Calculates the current progressbar value
 //   used in draw
 //   takes string current value, int total files, int amount of max progress, int last progress values
@@ -212,4 +303,4 @@ function progressCalc (current, total, outOf, last) {
   return last + Math.trunc(((current + 1) / total) * outOf)
 }
 
-export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, progressCalc }
+export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, getSubBg, progressCalc }

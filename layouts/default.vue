@@ -1,9 +1,6 @@
 <template>
   <v-app dark>
-    <v-app-bar
-      fixed
-      app
-    >
+    <v-app-bar fixed app>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn-toggle rounded>
@@ -17,10 +14,7 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer
-      absolute
-      app
-    >
+    <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }} <a :href="me" style="text-decoration: none;" color="#21CEF5">GeopJr</a> with <v-icon color="#21CEF5" medium>mdi-heart</v-icon></span>
     </v-footer>
   </v-app>

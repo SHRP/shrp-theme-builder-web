@@ -274,6 +274,160 @@
           </v-radio-group>
         </v-col>
       </v-row>
+
+      <v-divider class="mx-4" />
+      <v-row class="pa-3">
+        <v-col
+          cols="12"
+          md="5"
+        >
+          <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Use sparate color for dashboard text" />
+          <div v-if="fields.settings.dashboardTextColorEnabled == 1">
+            <v-text-field
+              v-model="fields.dashboardText.input"
+              :value="fields.dashboardText.input"
+              :label="fields.dashboardText.name"
+              :rules="colorRules"
+              outlined
+              required
+              readonly
+            >
+              <template #append>
+                <v-menu v-model="fields.dashboardText.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
+                  <template #activator="{ on }">
+                    <v-btn
+                      small
+                      icon
+                      class="mt-0"
+                      v-on="on"
+                    >
+                      <v-icon dark>
+                        mdi-format-color-fill
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-0">
+                      <v-color-picker
+                        v-model="fields.dashboardText.input"
+                        dot-size="20"
+                        hide-mode-switch
+                        mode="hexa"
+                        value="#FFFFFF"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </template>
+            </v-text-field>
+          </div>
+          <v-checkbox v-model="fields.settings.dashboardSubTintEnabled" label="Use dashboard icon background" />
+          <div v-if="fields.settings.dashboardSubTintEnabled == 1">
+            <v-text-field
+              v-model="fields.dashboardIcoBg.input"
+              :value="fields.dashboardIcoBg.input"
+              :label="fields.dashboardIcoBg.name"
+              :rules="colorRules"
+              outlined
+              required
+              readonly
+            >
+              <template #append>
+                <v-menu v-model="fields.dashboardIcoBg.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
+                  <template #activator="{ on }">
+                    <v-btn
+                      small
+                      icon
+                      class="mt-0"
+                      v-on="on"
+                    >
+                      <v-icon dark>
+                        mdi-format-color-fill
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-0">
+                      <v-color-picker
+                        v-model="fields.dashboardIcoBg.input"
+                        dot-size="20"
+                        hide-mode-switch
+                        mode="hexa"
+                        value="#FFFFFF"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </template>
+            </v-text-field>
+          </div>
+        </v-col>
+        <v-col
+          cols="2"
+          class="d-none d-md-flex"
+          style="justify-content: center;"
+        >
+          <v-divider vertical class="my-0" />
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="5"
+        >
+          <v-radio-group
+            v-if="fields.settings.dashboardSubTintEnabled == 1"
+            v-model="fields.icons.dBgType"
+            mandatory
+            label="Dashboard icon background style"
+            class="mt-0"
+          >
+            <v-radio
+              v-for="(style, i) in formInfo.dBgType"
+              :key="style"
+              :label="style"
+              :value="i+1"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-divider class="mx-4" style="margin-bottom:30px" />
+      <v-row>
+        <v-list-item-subtitle style="text-align:left;margin-left:20px">
+          Settings
+        </v-list-item-subtitle>
+      </v-row>
+      <v-row class="pa-3">
+        <v-col md="6">
+          <v-checkbox v-model="fields.settings.statusBarEnabled" label="Status Bar" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.batteryIconEnabled" label="Show Bettery Icon" />
+          <v-radio-group
+            v-if="fields.settings.batteryIconEnabled == 1"
+            v-model="fields.icons.batteryIco"
+            mandatory
+            label="Battery Icon Style"
+            class="mt-0"
+          >
+            <v-radio
+              v-for="(style, i) in formInfo.batteryIco"
+              :key="style"
+              :label="style"
+              :value="i+1"
+            />
+          </v-radio-group>
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.clockEnabled" label="Show Clock" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.cpuTempEnabled" label="Show CPU Temp" />
+        </v-col>
+        <v-divider vertical class="my-0" style="margin-right:20px" />
+        <v-col md="5">
+          <v-checkbox v-model="fields.settings.batteryBarEnabled" label="Show Battery Bar" />
+          <v-checkbox v-model="fields.settings.roundedCornerEnabled" label="Rounded Corners" />
+          <v-checkbox v-model="fields.settings.navbarBackgroundEnabled" label="Nav-Bar Background" />
+          <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Dashboard Text Color" />
+          <v-checkbox v-show="fields.settings.dashboardTextColorEnabled == 1" v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon BG" />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col
           cols="12"
@@ -315,7 +469,7 @@ export default {
         gradient: {
           enabled: false,
           type: 'LR',
-          accent: 'primary'
+          accent: 'Primary'
         },
         random: {
           enabled: false,
@@ -364,7 +518,9 @@ export default {
       },
       icons: {
         dIco: 1,
-        nIco: 1
+        dBgType: 1,
+        nIco: 1,
+        batteryIco: 1
       },
       normal: {
         themeName: {
@@ -403,6 +559,31 @@ export default {
           menu: false,
           notAProp: true
         }
+      },
+      dashboardText: {
+        type: 'color',
+        name: 'Dashboard Text Color',
+        input: '#FFFFFF',
+        menu: false
+      },
+      dashboardIcoBg: {
+        type: 'color',
+        name: 'Dashboard Icon Background Color',
+        input: '#FFFFFF',
+        menu: false
+      },
+      settings: {
+        batteryBarEnabled: 0,
+        statusBarEnabled: 0,
+        batteryIconEnabled: 0,
+        batteryPercentageEnabled: 0,
+        clockEnabled: 0,
+        centeredClockEnabled: 0,
+        cpuTempEnabled: 0,
+        roundedCornerEnabled: 0,
+        navbarBackgroundEnabled: 0,
+        dashboardSubTintEnabled: 0,
+        dashboardTextColorEnabled: 0
       }
     }
   })

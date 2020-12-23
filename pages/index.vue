@@ -7,7 +7,7 @@
           Welcome to the SHRP Theme Builder!
           <v-list-item-subtitle>Play with the setting below and click "Generate" when ready!</v-list-item-subtitle>
         </v-card-title>
-        <div class="text-center">
+        <div id="mainForm" class="text-center">
           <Form @submit="submit" />
         </div>
       </v-card>
@@ -18,13 +18,13 @@
           height="25"
           rounded
         />
-        <v-card-title class="headline">
+        <v-card-title id="finalMsgCard" class="headline">
           {{ status }}
           <v-list-item-subtitle v-show="sub">
             Please wait
           </v-list-item-subtitle>
         </v-card-title>
-        <div id="liveview" class="text-center">
+        <div id="liveview" class="text-center" style="display:none">
           <img id="srcImage" @load="onImgLoad">
           <canvas id="c" />
         </div>
@@ -41,7 +41,7 @@ import files from '~/assets/files.json'
 import Form from '~/components/Form.vue'
 import Logo from '~/components/Logo.vue'
 
-import { gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, progressCalc } from '~/assets/helpers.js'
+import { gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, progressCalc, generateNavBarColor, getSubBg } from '~/assets/helpers.js'
 
 const zip = new JSZip()
 const res = zip.folder('res')
@@ -64,17 +64,41 @@ export default {
     async submit (fields) {
       this.status = 'Getting ready'
       zip.remove('res')
-      zip.remove('st.prop')
+      zip.remove('dynamic')
       this.toggleViews()
 
       this.ready = true
       this.progress = 0
       this.last = 0
-
+      const accClr = fields.normal.accColor.input
+      const acc2Clr = fields.gradient.accColor2.input
       const totalFiles = countFiles(files)
       const stProp = generateStProp(fields.normal, fields.extra.gradient.enabled, fields.extra.gradient.accent, fields.gradient.accColor2.input)
+      const themeData = getThemeConfig({
+        primaryColor: fields.normal.textColor.input,
+        secondaryColor: fields.normal.sTextColor.input,
+        accentColor: (fields.extra.gradient.enabled && fields.extra.gradient.accent === 'Primary') ? accClr : acc2Clr,
+        backgroundColor: fields.normal.bgColor.input,
+        subBackgroundColor: getSubBg(fields.normal.bgColor.input),
+        navbarColor: generateNavBarColor(fields.normal.accColor.input),
+        dashboardTextColor: fields.settings.dashboardTextColorEnabled ? fields.dashboardText.input : fields.normal.accColor.input,
+
+        batteryBarEnabled: fields.settings.batteryBarEnabled ? 1 : 0,
+        statusBarEnabled: fields.settings.statusBarEnabled ? 1 : 0,
+        batteryIconEnabled: fields.settings.batteryIconEnabled ? 1 : 0,
+        batteryPercentageEnabled: fields.settings.batteryPercentageEnabled ? 1 : 0,
+        clockEnabled: fields.settings.clockEnabled ? 1 : 0,
+        centeredClockEnabled: fields.settings.centeredClockEnabled ? 1 : 0,
+        cpuTempEnabled: fields.settings.cpuTempEnabled ? 1 : 0,
+        roundedCornerEnabled: fields.settings.roundedCornerEnabled ? 1 : 0,
+        navbarBackgroundEnabled: fields.settings.navbarBackgroundEnabled ? 1 : 0,
+        dashboardSubTintEnabled: fields.settings.dashboardSubTintEnabled ? 1 : 0,
+        dashboardTextColorEnabled: fields.settings.dashboardTextColorEnabled ? 1 : 0
+      })
+      zip.folder('dynamic')
+      zip.file('dynamic/themeData.xml', themeData)
+
       this.genInfo = stProp[1]
-      zip.file('st.prop', stProp[0])
 
       const randomColors = [fields.normal.dIcoColor1.input]
       Object.values(fields.random).forEach((x) => {
@@ -113,12 +137,15 @@ export default {
       this.progress = 100
       this.status = 'Thanks for using SHRP!'
       this.sub = false
+      await delay(2000)
       this.toggleViews(false)
     },
     toggleViews (enable = true) {
       document.getElementById('toBeDisabled').disabled = enable
       document.getElementById('toBeDisabled').style.display = enable ? 'none' : 'block'
-      document.getElementById('liveview').style.display = enable ? 'block' : 'none'
+      // document.getElementById('liveview').style.display = enable ? 'block' : 'none'
+      document.getElementById('mainForm').style.display = enable ? 'none' : 'block'
+      document.getElementById('finalMsgCard').style.display = enable ? 'block' : 'none'
     },
     onImgLoad () {
       this.isLoaded = true
@@ -137,15 +164,17 @@ export default {
       ctx.drawImage(img, 0, 0)
       ctx.globalCompositeOperation = 'source-in'
       let filling = color
-      if (gradient) {
+      if (gradient && color !== 'transparent') {
         const slope = gradientSlope(gradientType, img.width, img.height)
         const grd = ctx.createLinearGradient(slope[0], slope[1], slope[2], slope[3])
         grd.addColorStop(0, color)
         grd.addColorStop(1, color2)
         filling = grd
       }
-      ctx.fillStyle = filling
-      ctx.fillRect(0, 0, img.width, img.height)
+      if (color !== 'transparent') {
+        ctx.fillStyle = filling
+        ctx.fillRect(0, 0, img.width, img.height)
+      }
       return await getCanvasBlob(canvas)
     }
   }

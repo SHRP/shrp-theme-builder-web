@@ -1,6 +1,8 @@
 {
     "dIco": ["Default", "Material", "Plain", "Plain Large"],
+    "dBgType": ["Circle", "Square", "Rounded Square", "Type 4"],
     "nIco": ["Pie", "Nxt-Bit", "Samsung", "Custom"],
+    "batteryIco": ["default", "circle"],
     "gradientType": {
       "LR": "Left to Right",
       "TB": "Top to Bottom",
