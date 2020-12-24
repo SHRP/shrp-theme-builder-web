@@ -429,6 +429,31 @@
           <v-checkbox v-show="fields.settings.dashboardTextColorEnabled == 1" v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon BG" />
         </v-col>
       </v-row>
+      <v-divider class="mx-4" />
+      <v-row class="pa-3" justify="center" align="center">
+        <v-col cols="12" md="6">
+          <v-switch
+            v-model="fields.splash.custom"
+            inset
+            hide-details
+            class="ma-0 pa-0"
+            label="Custom Splash Logo"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-file-input
+            v-show="fields.splash.custom"
+            v-model="fields.splash.info"
+            accept="image/png"
+            label="Splash Logo"
+            hide-details
+            show-size
+            outlined
+            dense
+            @change="relative_url"
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col
           cols="12"
@@ -466,6 +491,11 @@ export default {
       v => /^#[0-9a-fA-F]{6,8}$/.test(v) || 'Color must be in a hex format'
     ],
     fields: {
+      splash: {
+        blob: null,
+        info: null,
+        custom: false
+      },
       extra: {
         gradient: {
           enabled: false,
@@ -587,6 +617,18 @@ export default {
         dashboardTextColorEnabled: 0
       }
     }
-  })
+  }),
+  methods: {
+    relative_url () {
+      const image = this.fields.splash.info
+      if (!image) {
+        this.fields.splash.info = null
+        this.fields.splash.blob = null
+        this.fields.splash.custom = false
+        return
+      }
+      this.fields.splash.blob = URL.createObjectURL(image)
+    }
+  }
 }
 </script>

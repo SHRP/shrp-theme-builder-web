@@ -41,10 +41,11 @@ import files from '~/assets/files.json'
 import Form from '~/components/Form.vue'
 import Logo from '~/components/Logo.vue'
 
-import { gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, progressCalc, generateNavBarColor, getSubBg } from '~/assets/helpers.js'
+import { gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, progressCalc, generateNavBarColor, getSubBg, aspectRatio } from '~/assets/helpers.js'
 
 const zip = new JSZip()
 const res = zip.folder('res')
+const dynamic = zip.folder('dynamic')
 
 export default {
   components: {
@@ -97,8 +98,7 @@ export default {
         dashboardSubTintEnabled: fields.settings.dashboardSubTintEnabled ? 1 : 0,
         dashboardTextColorEnabled: fields.settings.dashboardTextColorEnabled ? 1 : 0
       })
-      zip.folder('dynamic')
-      zip.file('dynamic/themeData.xml', themeData)
+      dynamic.file('themeData.xml', themeData)
 
       const randomColors = [fields.normal.dIcoColor1.input]
       Object.values(fields.random).forEach((x) => {
@@ -129,6 +129,13 @@ export default {
       this.last = this.progress
       this.status = 'Done with editing assets'
       await delay(1000)
+      if (fields.splash.custom && fields.splash.info) {
+        this.status = 'Editing splash'
+        const resizedSplash = await this.drawSplash(fields.splash.blob)
+        res.file('c_logo.png', resizedSplash)
+        this.progress = 90
+        await delay(1000)
+      }
       this.status = 'Creating theme'
       zip.generateAsync({ type: 'blob' }).then(function (content) {
         // Replace spaces with underscores & change mime type
@@ -137,7 +144,7 @@ export default {
       this.progress = 100
       this.status = 'Thanks for using SHRP!'
       this.sub = false
-      await delay(2000)
+      await delay(5000)
       this.toggleViews(false)
     },
     toggleViews (enable = true) {
@@ -177,6 +184,23 @@ export default {
         ctx.fillStyle = filling
         ctx.fillRect(0, 0, img.width, img.height)
       }
+      return await getCanvasBlob(canvas)
+    },
+    async drawSplash (blob, newWidth, newHeight) {
+      this.isLoaded = false
+      const img = document.getElementById('srcImage')
+      img.src = blob
+      while (!this.isLoaded) {
+        await delay(100)
+      }
+      const newSizes = aspectRatio(img.width, img.height, 817, 817)
+      const canvas = document.getElementById('c')
+      canvas.width = newSizes[0]
+      canvas.height = newSizes[1]
+      const ctx = canvas.getContext('2d')
+
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height)
+
       return await getCanvasBlob(canvas)
     }
   }

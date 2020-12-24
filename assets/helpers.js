@@ -290,4 +290,14 @@ function progressCalc (current, total, outOf, last) {
   return last + Math.trunc(((current + 1) / total) * outOf)
 }
 
-export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, getSubBg, progressCalc }
+//   Calculates sizes keeping aspect ratio
+//   used in drawSplash
+//   takes image width and height and what the desired outcome would be
+//   returns an array of [newWidth, newHeight]
+function aspectRatio (srcWidth, srcHeight, maxWidth, maxHeight) {
+  const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight)
+
+  return [Math.trunc(srcWidth * ratio), Math.trunc(srcHeight * ratio)]
+}
+
+export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, getSubBg, progressCalc, aspectRatio }
