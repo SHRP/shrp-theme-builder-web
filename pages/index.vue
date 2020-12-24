@@ -66,6 +66,7 @@ export default {
   methods: {
     async submit (fields) {
       this.status = 'Getting ready'
+      this.sub = true
       zip.remove('res')
       zip.remove('dynamic')
       this.toggleViews()

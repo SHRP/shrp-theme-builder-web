@@ -430,8 +430,8 @@
         </v-col>
       </v-row>
       <v-divider class="mx-4" />
-      <v-row class="pa-3" justify="center" align="center">
-        <v-col cols="12" md="6">
+      <v-row class="pa-3" justify="center">
+        <v-col cols="12" md="6" class="pt-4">
           <v-switch
             v-model="fields.splash.custom"
             inset
@@ -446,15 +446,16 @@
             v-model="fields.splash.info"
             accept="image/png"
             label="Splash Logo"
-            hide-details
             show-size
             outlined
             dense
+            :error="shouldError"
+            :error-messages="inputErrors"
             @change="relative_url"
           />
         </v-col>
       </v-row>
-      <v-row>
+      <v-row justify="center" align="center">
         <v-col
           cols="12"
           md="4"
@@ -480,6 +481,8 @@ import formInfo from '~/assets/formInfo.json'
 export default {
   data: () => ({
     formInfo,
+    shouldError: false,
+    inputErrors: [],
     tempMenu: false,
     valid: false,
     nameRules: [
@@ -619,14 +622,22 @@ export default {
     }
   }),
   methods: {
-    relative_url () {
+    relative_url (rert) {
       const image = this.fields.splash.info
-      if (!image) {
+      if (!image || typeof rert === 'undefined') {
         this.fields.splash.info = null
         this.fields.splash.blob = null
         this.fields.splash.custom = false
+        this.shouldError = false
+        this.inputErrors = []
+        return
+      } else if (rert.type !== 'image/png') {
+        this.shouldError = true
+        this.inputErrors.push('Only PNG allowed')
         return
       }
+      this.inputErrors = []
+      this.shouldError = false
       this.fields.splash.blob = URL.createObjectURL(image)
     }
   }
