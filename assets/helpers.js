@@ -187,14 +187,14 @@ function generateFolderJson (files, fields, genInfo) {
 //   takes an array of string paths of files
 //   returns an Int
 function countFiles (files) {
-  let i = 0;
+  let i = 0
 
-  ['accRes', 'bgRes', 'bgRes2'].forEach((x) => {
-    i += files[x].length
-  });
-
-  ['dIco', 'nIco'].forEach((x) => {
-    i += files[x].files.length
+  Object.values(files).forEach((x) => {
+    let tmp = x.length
+    if (Object.prototype.hasOwnProperty.call(x, 'files')) {
+      tmp = x.files.length
+    }
+    i += tmp
   })
 
   return i
@@ -205,7 +205,6 @@ function countFiles (files) {
 //   takes json subfields, bool gradient, string gradientaccenttype, string gradientsecondary hex
 //   returns an array of [String, JSON]
 function generateStProp (subFields, gradient, gradientAccentType, gradientSecondary) {
-  const props = []
   const genInfo = {}
   for (const [key, value] of Object.entries(subFields)) {
     if (value.notAProp) { continue }
@@ -214,14 +213,10 @@ function generateStProp (subFields, gradient, gradientAccentType, gradientSecond
       noSpace = gradientSecondary
     }
     genInfo[key] = noSpace
-    props.push(`${key}=${noSpace}`)
   }
-  const navColor = generateNavBarColor(subFields.bgColor.input)
-  genInfo.navBgColor = navColor
-  const navBar = 'navBgColor=' + navColor
-  props.splice(2, 0, navBar)
+  genInfo.navBgColor = generateNavBarColor(subFields.bgColor.input)
 
-  return [props.join('\n'), genInfo]
+  return genInfo
 }
 
 function getThemeConfig (data) {
@@ -258,41 +253,33 @@ function getThemeConfig (data) {
 }
 
 // Checks if that color is Dark or not
-function isDark (x) {
-  const r = parseInt('0x' + x.substring(1, 3))
-  const g = parseInt('0x' + x.substring(3, 5))
-  const b = parseInt('0x' + x.substring(5, 7))
-  let tHold = 0
-  tHold = r > 180 ? tHold + 1 : tHold
-  tHold = g > 180 ? tHold + 1 : tHold
-  tHold = b > 180 ? tHold + 1 : tHold
+function isDark (color) {
+  const rgb = hex2rgb(splitHex(color))
+  const tHold = rgb.filter(x => x > 180).length
+
   return tHold > 1 ? 0 : 1
 }
 
 // Adjust color val if the color is greater than 255 or less than 0
-function adjustColorVal (x) {
-  if (x > 127 && x > 255) {
-    return 255
-  } else if (x < 128 && x < 0) {
-    return 0
-  } else {
-    return x
+function adjustColorVal (color) {
+  let x = color
+  if (x > 255) {
+    x = 255
+  } else if (x < 0) {
+    x = 0
   }
+
+  return x
 }
 
 // Genarate subBg color from background color
 function getSubBg (color) {
-  let r = parseInt('0x' + color.substring(1, 3))
-  let g = parseInt('0x' + color.substring(3, 5))
-  let b = parseInt('0x' + color.substring(5, 7))
-  let inc = 18
-  if (!isDark(color)) {
-    inc = -18
-  }
-  r = adjustColorVal(r + inc)
-  g = adjustColorVal(g + inc)
-  b = adjustColorVal(b + inc)
-  return '#' + r.toString(16) + g.toString(16) + b.toString(16)
+  let rgb = hex2rgb(splitHex(color))
+
+  const inc = (isDark(color) === 0 ? -1 : 1) * 18
+
+  rgb = rgb.map(x => adjustColorVal(x + inc))
+  return '#' + rgb2hex(rgb).join('')
 }
 
 //   Calculates the current progressbar value

@@ -14,7 +14,7 @@ Pre-install:
 # Install dependencies
 $ yarn install
 
-# Running in a locally
+# Running it locally
 $ yarn dev
 
 # Auto fixing simple eslint warns/errors

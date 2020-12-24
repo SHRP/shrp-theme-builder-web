@@ -4,21 +4,21 @@
       <Logo />
       <v-card class="pa-2">
         <v-card-title class="headline pb-0">
-          Welcome to the SHRP Theme Builder!
-          <v-list-item-subtitle>Play with the setting below and click "Generate" when ready!</v-list-item-subtitle>
+          {{ headline }}
+          <v-list-item-subtitle>{{ subline }}</v-list-item-subtitle>
         </v-card-title>
         <div id="mainForm" class="text-center">
           <Form @submit="submit" />
         </div>
       </v-card>
-      <v-card v-show="ready" class="pa-2 mt-4">
+      <v-card v-show="ready" id="finalMsgCard" class="pa-2 mt-4">
         <v-progress-linear
           v-model="progress"
           color="#21CEF5"
           height="25"
           rounded
         />
-        <v-card-title id="finalMsgCard" class="headline">
+        <v-card-title class="headline">
           {{ status }}
           <v-list-item-subtitle v-show="sub">
             Please wait
@@ -58,7 +58,9 @@ export default {
     ready: false,
     sub: true,
     progress: 0,
-    last: 0
+    last: 0,
+    headline: 'Welcome to the SHRP Theme Builder!',
+    subline: 'Play with the setting below and click "Generate" when ready!'
   }),
   methods: {
     async submit (fields) {
@@ -70,10 +72,10 @@ export default {
       this.ready = true
       this.progress = 0
       this.last = 0
+      this.genInfo = generateStProp(fields.normal, fields.extra.gradient.enabled, fields.extra.gradient.accent, fields.gradient.accColor2.input)
       const accClr = fields.normal.accColor.input
       const acc2Clr = fields.gradient.accColor2.input
       const totalFiles = countFiles(files)
-      const stProp = generateStProp(fields.normal, fields.extra.gradient.enabled, fields.extra.gradient.accent, fields.gradient.accColor2.input)
       const themeData = getThemeConfig({
         primaryColor: fields.normal.textColor.input,
         secondaryColor: fields.normal.sTextColor.input,
@@ -97,8 +99,6 @@ export default {
       })
       zip.folder('dynamic')
       zip.file('dynamic/themeData.xml', themeData)
-
-      this.genInfo = stProp[1]
 
       const randomColors = [fields.normal.dIcoColor1.input]
       Object.values(fields.random).forEach((x) => {
@@ -146,6 +146,8 @@ export default {
       // document.getElementById('liveview').style.display = enable ? 'block' : 'none'
       document.getElementById('mainForm').style.display = enable ? 'none' : 'block'
       document.getElementById('finalMsgCard').style.display = enable ? 'block' : 'none'
+
+      this.subline = enable ? 'Please wait until your theme gets built...' : 'Play with the setting below and click "Generate" when ready!'
     },
     onImgLoad () {
       this.isLoaded = true
