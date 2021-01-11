@@ -33,7 +33,7 @@ export default {
         },
         {
           title: 'Guide',
-          url: 'https://skyhawk-recovery-project.github.io/'
+          url: 'https://shrp.github.io/'
         }
       ]
     }
