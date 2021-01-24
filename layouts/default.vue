@@ -15,7 +15,7 @@
       </v-container>
     </v-main>
     <v-footer absolute app>
-      <span>&copy; {{ new Date().getFullYear() }} <a :href="me" style="text-decoration: none;" color="#21CEF5">GeopJr</a> with <v-icon color="#21CEF5" medium>mdi-heart</v-icon></span>
+      <span>&copy; {{ new Date().getFullYear() }} <span v-for="(person, index) in people" :key="person.name"><a :href="person.link" style="text-decoration: none;" color="#21CEF5">{{ person.name }}</a><span v-if="index+1 < people.length">{{ index === people.length - 2 ? " & " : ", " }}</span></span> with <v-icon color="#21CEF5" medium>mdi-heart</v-icon></span>
     </v-footer>
   </v-app>
 </template>
@@ -25,7 +25,16 @@ export default {
   data () {
     return {
       title: 'SHRP Theme Builder',
-      me: 'https://geopjr.xyz/',
+      people: [
+        {
+          name: 'GeopJr',
+          link: 'https://geopjr.xyz/'
+        },
+        {
+          name: 'epicX',
+          link: 'https://epicx67.github.io/'
+        }
+      ],
       buttons: [
         {
           title: 'SHRP',
