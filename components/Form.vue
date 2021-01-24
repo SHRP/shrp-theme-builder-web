@@ -411,7 +411,7 @@
           </v-radio-group>
           <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
           <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.clockEnabled" label="Show Clock" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled == 1 && fields.settings.clockEnabled" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
           <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.cpuTempEnabled" label="Show CPU Temp" />
         </v-col>
         <v-col
