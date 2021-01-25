@@ -148,7 +148,7 @@ function generateFolderJson (files, fields, genInfo) {
     dIco: {
       name: `dIco/dt${fields.icons.dIco}`,
       files: files.dIco.files,
-      color: fields.normal.dIcoColor1.input,
+      color: fields.dnIcoColors.dIcoColor.input,
       gradient: fields.extra.gradient.enabled,
       color2: fields.random.dIcoColor2.input,
       random: true,
@@ -157,7 +157,7 @@ function generateFolderJson (files, fields, genInfo) {
     nIco: {
       name: `nIco/nt${fields.icons.nIco}`,
       files: files.nIco.files,
-      color: fields.normal.accColor.input,
+      color: fields.dnIcoColors.nIcoColor.input,
       gradient: fields.extra.gradient.enabled,
       color2: fields.gradient.accColor2.input
     },
@@ -300,4 +300,4 @@ function aspectRatio (srcWidth, srcHeight, maxWidth, maxHeight) {
   return [Math.trunc(srcWidth * ratio), Math.trunc(srcHeight * ratio)]
 }
 
-export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, getSubBg, progressCalc, aspectRatio }
+export { splitHex, hex2rgb, rgb2hex, generateNavBarColor, gradientSlope, getCanvasBlob, getRandom, delay, generateFolderJson, countFiles, generateStProp, getThemeConfig, getSubBg, progressCalc, aspectRatio, isDark }

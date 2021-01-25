@@ -247,6 +247,45 @@
               :value="i+1"
             />
           </v-radio-group>
+          <div>
+            <v-text-field
+              v-model="fields.dnIcoColors.dIcoColor.input"
+              :value="fields.dnIcoColors.dIcoColor.input"
+              :label="fields.dnIcoColors.dIcoColor.name"
+              :rules="colorRules"
+              outlined
+              required
+              readonly
+            >
+              <template #append>
+                <v-menu v-model="fields.dnIcoColors.dIcoColor.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
+                  <template #activator="{ on }">
+                    <v-btn
+                      small
+                      icon
+                      class="mt-0"
+                      v-on="on"
+                    >
+                      <v-icon dark>
+                        mdi-format-color-fill
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-0">
+                      <v-color-picker
+                        v-model="fields.dnIcoColors.dIcoColor.input"
+                        dot-size="20"
+                        hide-mode-switch
+                        mode="hexa"
+                        value="#FFFFFF"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </template>
+            </v-text-field>
+          </div>
         </v-col>
         <v-col
           cols="2"
@@ -272,6 +311,45 @@
               :value="i+1"
             />
           </v-radio-group>
+          <div>
+            <v-text-field
+              v-model="fields.dnIcoColors.nIcoColor.input"
+              :value="fields.dnIcoColors.nIcoColor.input"
+              :label="fields.dnIcoColors.nIcoColor.name"
+              :rules="colorRules"
+              outlined
+              required
+              readonly
+            >
+              <template #append>
+                <v-menu v-model="fields.dnIcoColors.nIcoColor.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
+                  <template #activator="{ on }">
+                    <v-btn
+                      small
+                      icon
+                      class="mt-0"
+                      v-on="on"
+                    >
+                      <v-icon dark>
+                        mdi-format-color-fill
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-0">
+                      <v-color-picker
+                        v-model="fields.dnIcoColors.nIcoColor.input"
+                        dot-size="20"
+                        hide-mode-switch
+                        mode="hexa"
+                        value="#FFFFFF"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </template>
+            </v-text-field>
+          </div>
         </v-col>
       </v-row>
 
@@ -282,7 +360,7 @@
           md="5"
         >
           <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Custom Dashboard Text Color" />
-          <div v-if="fields.settings.dashboardTextColorEnabled == 1">
+          <div v-if="fields.settings.dashboardTextColorEnabled">
             <v-text-field
               v-model="fields.dashboardText.input"
               :value="fields.dashboardText.input"
@@ -322,7 +400,7 @@
             </v-text-field>
           </div>
           <v-checkbox v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon Background" />
-          <div v-if="fields.settings.dashboardSubTintEnabled == 1">
+          <div v-if="fields.settings.dashboardSubTintEnabled">
             <v-text-field
               v-model="fields.dashboardIcoBg.input"
               :value="fields.dashboardIcoBg.input"
@@ -375,7 +453,7 @@
           md="5"
         >
           <v-radio-group
-            v-if="fields.settings.dashboardSubTintEnabled == 1"
+            v-if="fields.settings.dashboardSubTintEnabled"
             v-model="fields.icons.dBgType"
             mandatory
             label="Dashboard icon background style"
@@ -394,9 +472,9 @@
       <v-row class="pa-3">
         <v-col md="5">
           <v-checkbox v-model="fields.settings.statusBarEnabled" label="Status Bar" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.batteryIconEnabled" label="Show Bettery Icon" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryIconEnabled" label="Show Bettery Icon" />
           <v-radio-group
-            v-if="fields.settings.batteryIconEnabled == 1"
+            v-if="fields.settings.batteryIconEnabled"
             v-model="fields.icons.batteryIco"
             mandatory
             label="Battery Icon Style"
@@ -409,10 +487,10 @@
               :value="i+1"
             />
           </v-radio-group>
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.clockEnabled" label="Show Clock" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1 && fields.settings.clockEnabled" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled == 1" v-model="fields.settings.cpuTempEnabled" label="Show CPU Temp" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.clockEnabled" label="Show Clock" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled && fields.settings.clockEnabled" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
+          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.cpuTempEnabled" label="Show CPU Temp" />
         </v-col>
         <v-col
           cols="2"
@@ -426,7 +504,7 @@
           <v-checkbox v-model="fields.settings.roundedCornerEnabled" label="Rounded Corners" />
           <v-checkbox v-model="fields.settings.navbarBackgroundEnabled" label="Nav-Bar Background" />
           <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Dashboard Text Color" />
-          <v-checkbox v-show="fields.settings.dashboardTextColorEnabled == 1" v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon BG" />
+          <v-checkbox v-show="fields.settings.dashboardTextColorEnabled" v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon BG" />
         </v-col>
       </v-row>
       <v-divider class="mx-4" />
@@ -458,8 +536,14 @@
       <v-row justify="center" align="center">
         <v-col
           cols="12"
-          md="4"
         >
+          <v-btn
+            color="#21CEF5"
+            style="color: #000"
+            @click="$emit('reconstruct', fields)"
+          >
+            Refresh Preview
+          </v-btn>
           <v-btn
             id="toBeDisabled"
             :disabled="!valid"
@@ -556,6 +640,22 @@ export default {
         nIco: 1,
         batteryIco: 1
       },
+      dnIcoColors: {
+        dIcoColor: {
+          type: 'color',
+          name: 'Dashboard Icon Color',
+          input: '#FF8100',
+          menu: false,
+          notAProp: true
+        },
+        nIcoColor: {
+          type: 'color',
+          name: 'Navbar Icon Color',
+          input: '#FF00AC',
+          menu: false,
+          notAProp: true
+        }
+      },
       normal: {
         themeName: {
           type: 'text',
@@ -565,13 +665,13 @@ export default {
         bgColor: {
           type: 'color',
           name: 'Background Color',
-          input: '#FFFFFF',
+          input: '#22004B',
           menu: false
         },
         accColor: {
           type: 'color',
           name: 'Accent Color',
-          input: '#FFFFFF',
+          input: '#00FF70',
           menu: false
         },
         textColor: {
@@ -583,21 +683,14 @@ export default {
         sTextColor: {
           type: 'color',
           name: 'Secondary Text Color',
-          input: '#FFFFFF',
+          input: '#FFEC00',
           menu: false
-        },
-        dIcoColor1: {
-          type: 'color',
-          name: 'Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false,
-          notAProp: true
         }
       },
       dashboardText: {
         type: 'color',
         name: 'Dashboard Text Color',
-        input: '#FFFFFF',
+        input: '#FFFA00',
         menu: false
       },
       dashboardIcoBg: {
@@ -607,20 +700,36 @@ export default {
         menu: false
       },
       settings: {
-        batteryBarEnabled: 0,
-        statusBarEnabled: 0,
-        batteryIconEnabled: 0,
-        batteryPercentageEnabled: 0,
-        clockEnabled: 0,
-        centeredClockEnabled: 0,
-        cpuTempEnabled: 0,
-        roundedCornerEnabled: 0,
-        navbarBackgroundEnabled: 0,
-        dashboardSubTintEnabled: 0,
-        dashboardTextColorEnabled: 0
+        batteryBarEnabled: false,
+        statusBarEnabled: false,
+        batteryIconEnabled: false,
+        batteryPercentageEnabled: false,
+        clockEnabled: false,
+        centeredClockEnabled: false,
+        cpuTempEnabled: false,
+        roundedCornerEnabled: false,
+        navbarBackgroundEnabled: false,
+        dashboardSubTintEnabled: false,
+        dashboardTextColorEnabled: false
       }
     }
   }),
+  created () {
+    // To be fired when form gets created
+    // interval was used for when it as auto updating
+
+    // this.interval = setInterval(() => this.$emit('fields-changed', this.fields), 1000)
+    this.$emit('reconstruct', this.fields)
+  },
+  // Watch was used for real time auto updating
+  // watch: {
+  //   fields: {
+  //     handler (newFields) {
+  //       this.$emit('fields-changed', newFields)
+  //     },
+  //     deep: true
+  //   }
+  // },
   methods: {
     relative_url (rert) {
       const image = this.fields.splash.info
