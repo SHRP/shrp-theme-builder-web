@@ -37,7 +37,7 @@
           </v-list-item-subtitle>
         </v-card-title>
         <div id="preview" class="text-center">
-          <canvas id="d" height="1000" width="500" style="display: block; height: 100%;margin-left: auto;margin-right: auto;max-width: 100%;" />
+          <canvas id="d" height="1000" width="500" style="display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;" />
           <img id="tmpLoader" style="display: none" @load="onTmpImgLoad">
         </div>
       </v-card>
@@ -232,7 +232,7 @@ export default {
         canvas.setAttribute('id', 'd')
         canvas.width = 500
         canvas.height = 1000
-        canvas.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+        canvas.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
         document.getElementById('preview').appendChild(canvas)
         this.renderPreview(fields)
       }
@@ -255,32 +255,32 @@ export default {
       const canvas = document.createElement('canvas')
       canvas.width = 500
       canvas.height = 1000
-      canvas.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx = canvas.getContext('2d')
       const canvas2 = document.createElement('canvas')
       canvas2.width = 500
       canvas2.height = 1000
-      canvas2.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas2.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx2 = canvas2.getContext('2d')
       const canvas3 = document.createElement('canvas')
       canvas3.width = 500
       canvas3.height = 1000
-      canvas3.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas3.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx3 = canvas3.getContext('2d')
       const canvas4 = document.createElement('canvas')
       canvas4.width = 500
       canvas4.height = 1000
-      canvas4.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas4.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx4 = canvas4.getContext('2d')
       const canvas5 = document.createElement('canvas')
       canvas5.width = 500
       canvas5.height = 1000
-      canvas5.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas5.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx5 = canvas5.getContext('2d')
       const canvas6 = document.createElement('canvas')
       canvas6.width = 500
       canvas6.height = 1000
-      canvas6.style = 'display: block;max-width: 100%; height: 100%;margin-left: auto;margin-right: auto;'
+      canvas6.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
       const ctx6 = canvas6.getContext('2d')
       const canvas7 = document.createElement('canvas')
       const ctx7 = canvas7.getContext('2d')
