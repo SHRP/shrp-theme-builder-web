@@ -95,7 +95,7 @@ export default {
       const themeData = getThemeConfig({
         primaryColor: fields.normal.textColor.input,
         secondaryColor: fields.normal.sTextColor.input,
-        accentColor: (fields.extra.gradient.enabled && fields.extra.gradient.accent === 'Primary') ? accClr : acc2Clr,
+        accentColor: ((fields.extra.gradient.enabled && fields.extra.gradient.accent.toLowerCase() === 'primary') || !fields.extra.gradient.enabled) ? accClr : acc2Clr,
         backgroundColor: fields.normal.bgColor.input,
         subBackgroundColor: getSubBg(fields.normal.bgColor.input),
         navbarColor: fields.dnIcoColors.nIcoColor.input,
