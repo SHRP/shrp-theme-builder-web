@@ -1,6 +1,6 @@
 <template>
   <div class="shrp-logo">
-    <img src="/shrp-logo.png">
+    <img src="~/static/shrp-logo.png">
   </div>
 </template>
 

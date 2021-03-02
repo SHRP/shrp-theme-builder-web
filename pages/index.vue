@@ -128,7 +128,7 @@ export default {
         const folder = Object.values(folders)[i]
         for (let j = 0; j < folder.files.length; j++) {
           const file = folder.files[j]
-          const filePath = '/files/' + folder.name + '/' + file
+          const filePath = process.env.sub + 'files/' + folder.name + '/' + file
           let blob
           if (fields.extra.random.enabled && folder.random) {
             const colors = getRandom(randomColors, fields.extra.random.type, folder.randomSalt)

@@ -1,5 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
+const domain = {
+  base: "https://shrp.github.io",
+  sub: "/shrp-theme-builder-web/"
+}
+
 export default {
   ssr: false,
   target: 'static',
@@ -22,20 +27,23 @@ export default {
       { name: 'og:description', content: 'An online SHRP theme creator' },
       { name: 'og:title', content: 'SHRP Theme Builder' },
       { name: 'og:type', content: 'website' },
-      { name: 'og:url', content: 'https://shrp.github.io/shrp-theme-builder-web/' },
+      { name: 'og:url', content: domain.base + domain.sub },
       { name: 'og:image:type', content: 'image/png' },
-      { name: 'og:image', content: 'https://shrp.github.io/shrp-theme-builder-web/shrp-logo.png' }
+      { name: 'og:image', content: domain.base + domain.sub + 'shrp-logo.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/shrp-theme-builder-web/shrp-logo.png' }
+      { rel: 'icon', type: 'image/x-icon', href: domain.sub + 'shrp-logo.png' }
     ]
   },
   // Reduces vuetify size apparently
   build: {
     extractCSS: true
   },
+  env: {
+    sub: domain.sub
+  },
   router: {
-    base: '/shrp-theme-builder-web/'
+    base: domain.sub
   },
   components: true,
   buildModules: [
