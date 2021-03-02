@@ -27,7 +27,7 @@ export default {
       { name: 'og:image', content: 'https://shrp.github.io/shrp-theme-builder-web/shrp-logo.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/shrp-logo.png' }
+      { rel: 'icon', type: 'image/x-icon', href: '/shrp-theme-builder-web/shrp-logo.png' }
     ]
   },
   // Reduces vuetify size apparently
