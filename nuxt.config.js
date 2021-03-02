@@ -1,8 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
 const domain = {
-  base: "https://shrp.github.io",
-  sub: "/shrp-theme-builder-web/"
+  base: 'https://shrp.github.io',
+  sub: '/shrp-theme-builder-web/'
 }
 
 export default {
