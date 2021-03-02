@@ -22,9 +22,9 @@ export default {
       { name: 'og:description', content: 'An online SHRP theme creator' },
       { name: 'og:title', content: 'SHRP Theme Builder' },
       { name: 'og:type', content: 'website' },
-      { name: 'og:url', content: 'https://shrp.geopjr.xyz/' },
+      { name: 'og:url', content: 'https://shrp.github.io/shrp-theme-builder-web/' },
       { name: 'og:image:type', content: 'image/png' },
-      { name: 'og:image', content: 'https://shrp.geopjr.xyz/shrp-logo.png' }
+      { name: 'og:image', content: 'https://shrp.github.io/shrp-theme-builder-web/shrp-logo.png' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/shrp-logo.png' }
@@ -33,6 +33,9 @@ export default {
   // Reduces vuetify size apparently
   build: {
     extractCSS: true
+  },
+  router: {
+    base: '/shrp-theme-builder-web/'
   },
   components: true,
   buildModules: [
