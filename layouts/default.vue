@@ -28,7 +28,7 @@ export default {
       people: [
         {
           name: 'GeopJr',
-          link: 'https://geopjr.xyz/'
+          link: 'https://geopjr.dev/'
         },
         {
           name: 'epicX',
