@@ -1,0 +1,136 @@
+{
+    "splash": {
+      "blob": null,
+      "info": null,
+      "custom": false
+    },
+    "extra": {
+      "gradient": {
+        "enabled": false,
+        "type": "LR",
+        "accent": "Primary"
+      },
+      "random": {
+        "enabled": false,
+        "type": 3
+      }
+    },
+    "gradient": {
+      "accColor2": {
+        "type": "color",
+        "name": "Secondary Accent Color",
+        "input": "#FFFFFF",
+        "menu": false
+      }
+    },
+    "random": {
+      "dIcoColor2": {
+        "type": "color",
+        "name": "#2 Dashboard Icon Color",
+        "input": "#FFFFFF",
+        "menu": false
+      },
+      "dIcoColor3": {
+        "type": "color",
+        "name": "#3 Dashboard Icon Color",
+        "input": "#FFFFFF",
+        "menu": false
+      },
+      "dIcoColor4": {
+        "type": "color",
+        "name": "#4 Dashboard Icon Color",
+        "input": "#FFFFFF",
+        "menu": false
+      },
+      "dIcoColor5": {
+        "type": "color",
+        "name": "#5 Dashboard Icon Color",
+        "input": "#FFFFFF",
+        "menu": false
+      },
+      "dIcoColor6": {
+        "type": "color",
+        "name": "#6 Dashboard Icon Color",
+        "input": "#FFFFFF",
+        "menu": false
+      }
+    },
+    "icons": {
+      "dIco": 1,
+      "dBgType": 1,
+      "nIco": 1,
+      "batteryIco": 1
+    },
+    "dnIcoColors": {
+      "dIcoColor": {
+        "type": "color",
+        "name": "Dashboard Icon Color",
+        "input": "#FF8100",
+        "menu": false,
+        "notAProp": true
+      },
+      "nIcoColor": {
+        "type": "color",
+        "name": "Navbar Icon Color",
+        "input": "#FF00AC",
+        "menu": false,
+        "notAProp": true
+      }
+    },
+    "normal": {
+      "themeName": {
+        "type": "text",
+        "name": "Theme Name",
+        "input": "My Theme"
+      },
+      "bgColor": {
+        "type": "color",
+        "name": "Background Color",
+        "input": "#22004B",
+        "menu": false
+      },
+      "accColor": {
+        "type": "color",
+        "name": "Accent Color",
+        "input": "#00FF70",
+        "menu": false
+      },
+      "textColor": {
+        "type": "color",
+        "name": "Text Color",
+        "input": "#FFFFFF",
+        "menu": false
+      },
+      "sTextColor": {
+        "type": "color",
+        "name": "Secondary Text Color",
+        "input": "#FFEC00",
+        "menu": false
+      }
+    },
+    "dashboardText": {
+      "type": "color",
+      "name": "Dashboard Text Color",
+      "input": "#FFFA00",
+      "menu": false
+    },
+    "dashboardIcoBg": {
+      "type": "color",
+      "name": "Dashboard Icon Background Color",
+      "input": "#FFFFFF",
+      "menu": false
+    },
+    "settings": {
+      "batteryBarEnabled": false,
+      "statusBarEnabled": false,
+      "batteryIconEnabled": false,
+      "batteryPercentageEnabled": false,
+      "clockEnabled": false,
+      "centeredClockEnabled": false,
+      "cpuTempEnabled": false,
+      "roundedCornerEnabled": false,
+      "navbarBackgroundEnabled": false,
+      "dashboardSubTintEnabled": false,
+      "dashboardTextColorEnabled": false
+    }
+  }
