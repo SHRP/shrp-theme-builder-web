@@ -6,60 +6,19 @@
   >
     <v-container>
       <v-row class="px-3 pt-0">
-        <v-col v-for="(value, key) in fields.extra" :key="key" cols="6">
-          <v-switch
-            v-model="value.enabled"
-            inset
-            class="mt-0 pt-0"
-            :label="key.charAt(0).toUpperCase() + key.slice(1)"
-          />
+        <v-col v-for="(value, key) in defaultState.extra" :key="key" cols="6">
+          <FormSwitch :category="'extra'" :parent="key" :child="'enabled'" :classes="'mt-0 pt-0'" />
         </v-col>
       </v-row>
       <v-row>
         <v-col
-          v-for="(value, key) in fields.normal"
+          v-for="(value, key) in defaultState.normal"
           :key="key"
           cols="12"
           md="4"
         >
           <div v-if="value.type === 'color'">
-            <v-text-field
-              v-model="value.input"
-              :value="value.input"
-              :label="value.name"
-              :rules="colorRules"
-              outlined
-              required
-              readonly
-            >
-              <template #append>
-                <v-menu v-model="value.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template #activator="{ on }">
-                    <v-btn
-                      small
-                      icon
-                      class="mt-0"
-                      v-on="on"
-                    >
-                      <v-icon dark>
-                        mdi-format-color-fill
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-0">
-                      <v-color-picker
-                        v-model="value.input"
-                        dot-size="20"
-                        hide-mode-switch
-                        mode="hexa"
-                        value="#FFFFFF"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+            <FormColorPicker :category="'normal'" :parent="key" :child="'input'" :text-child="'menu'" />
           </div>
           <div v-else>
             <v-text-field
@@ -93,56 +52,25 @@
           </v-radio-group>
         </v-col>
         <v-col
-          v-for="(value, key, i) in fields.random"
-          v-show="i + 1 >= 3 ? fields.extra.random.type === 6 : true"
+          v-for="(value, key, i) in defaultState.random"
+          v-show="i + 1 >= 3 ? defaultState.extra.random.type === 6 : true"
           :key="key"
           cols="12"
           md="4"
           class="mb-0"
         >
-          <v-text-field
-            v-model="value.input"
-            :value="value.input"
-            :label="value.name"
-            :rules="colorRules"
-            outlined
-            required
-            hide-details
-            readonly
-            class="my-4"
-          >
-            <template #append>
-              <v-menu v-model="value.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                <template #activator="{ on }">
-                  <v-btn
-                    small
-                    icon
-                    class="mt-0"
-                    v-on="on"
-                  >
-                    <v-icon dark>
-                      mdi-format-color-fill
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-0">
-                    <v-color-picker
-                      v-model="value.input"
-                      dot-size="20"
-                      hide-mode-switch
-                      mode="hexa"
-                      value="#FFFFFF"
-                    />
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-            </template>
-          </v-text-field>
+          <FormColorPicker
+            :category="'random'"
+            :parent="key"
+            :child="'input'"
+            :text-child="'menu'"
+            :classes="'my-4'"
+            :should-hide-details="true"
+          />
         </v-col>
       </v-row>
-      <v-divider v-show="fields.extra.gradient.enabled" class="mx-4" />
-      <v-row v-show="fields.extra.gradient.enabled">
+      <v-divider v-show="$store.getters.get('extra.gradient', 'enabled')" class="mx-4" />
+      <v-row v-show="$store.getters.get('extra.gradient', 'enabled')">
         <v-col cols="12">
           <v-radio-group
             v-model="fields.extra.gradient.type"
@@ -181,51 +109,21 @@
           </v-radio-group>
         </v-col>
         <v-col
-          v-for="(value, i) in [fields.gradient.accColor2, fields.random.dIcoColor2]"
+          v-for="(value, i) in [defaultState.gradient.accColor2, defaultState.random.dIcoColor2]"
           :key="i"
           cols="12"
           md="4"
           class="mb-0"
         >
-          <v-text-field
-            v-model="value.input"
-            :value="value.input"
-            :label="value.name"
-            :rules="colorRules"
-            outlined
-            required
-            hide-details
-            readonly
-            class="my-4"
-          >
-            <template #append>
-              <v-menu :v-model="i === 0 ? value.menu : tempMenu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                <template #activator="{ on }">
-                  <v-btn
-                    small
-                    icon
-                    class="mt-0"
-                    v-on="on"
-                  >
-                    <v-icon dark>
-                      mdi-format-color-fill
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-0">
-                    <v-color-picker
-                      v-model="value.input"
-                      dot-size="20"
-                      hide-mode-switch
-                      mode="hexa"
-                      value="#FFFFFF"
-                    />
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-            </template>
-          </v-text-field>
+          <FormColorPicker
+            :classes="'my-4'"
+            :should-hide-details="true"
+            :category="i === 0 ? 'gradient' : 'random'"
+            :parent="i === 0 ? 'accColor2' : 'dIcoColor2'"
+            :child="'input'"
+            :text-child="'menu'"
+            :pseudo="i === 0 ? false : true"
+          />
         </v-col>
       </v-row>
       <v-divider class="mx-4" />
@@ -248,43 +146,12 @@
             />
           </v-radio-group>
           <div>
-            <v-text-field
-              v-model="fields.dnIcoColors.dIcoColor.input"
-              :value="fields.dnIcoColors.dIcoColor.input"
-              :label="fields.dnIcoColors.dIcoColor.name"
-              :rules="colorRules"
-              outlined
-              required
-              readonly
-            >
-              <template #append>
-                <v-menu v-model="fields.dnIcoColors.dIcoColor.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template #activator="{ on }">
-                    <v-btn
-                      small
-                      icon
-                      class="mt-0"
-                      v-on="on"
-                    >
-                      <v-icon dark>
-                        mdi-format-color-fill
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-0">
-                      <v-color-picker
-                        v-model="fields.dnIcoColors.dIcoColor.input"
-                        dot-size="20"
-                        hide-mode-switch
-                        mode="hexa"
-                        value="#FFFFFF"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+            <FormColorPicker
+              :category="'dnIcoColors'"
+              :parent="'dIcoColor'"
+              :child="'input'"
+              :text-child="'menu'"
+            />
           </div>
         </v-col>
         <v-col
@@ -312,43 +179,12 @@
             />
           </v-radio-group>
           <div>
-            <v-text-field
-              v-model="fields.dnIcoColors.nIcoColor.input"
-              :value="fields.dnIcoColors.nIcoColor.input"
-              :label="fields.dnIcoColors.nIcoColor.name"
-              :rules="colorRules"
-              outlined
-              required
-              readonly
-            >
-              <template #append>
-                <v-menu v-model="fields.dnIcoColors.nIcoColor.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template #activator="{ on }">
-                    <v-btn
-                      small
-                      icon
-                      class="mt-0"
-                      v-on="on"
-                    >
-                      <v-icon dark>
-                        mdi-format-color-fill
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-0">
-                      <v-color-picker
-                        v-model="fields.dnIcoColors.nIcoColor.input"
-                        dot-size="20"
-                        hide-mode-switch
-                        mode="hexa"
-                        value="#FFFFFF"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+            <FormColorPicker
+              :category="'dnIcoColors'"
+              :parent="'nIcoColor'"
+              :child="'input'"
+              :text-child="'menu'"
+            />
           </div>
         </v-col>
       </v-row>
@@ -360,84 +196,20 @@
           md="5"
         >
           <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Custom Dashboard Text Color" />
-          <div v-if="fields.settings.dashboardTextColorEnabled">
-            <v-text-field
-              v-model="fields.dashboardText.input"
-              :value="fields.dashboardText.input"
-              :label="fields.dashboardText.name"
-              :rules="colorRules"
-              outlined
-              required
-              readonly
-            >
-              <template #append>
-                <v-menu v-model="fields.dashboardText.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template #activator="{ on }">
-                    <v-btn
-                      small
-                      icon
-                      class="mt-0"
-                      v-on="on"
-                    >
-                      <v-icon dark>
-                        mdi-format-color-fill
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-0">
-                      <v-color-picker
-                        v-model="fields.dashboardText.input"
-                        dot-size="20"
-                        hide-mode-switch
-                        mode="hexa"
-                        value="#FFFFFF"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+          <div v-if="defaultState.settings.dashboardTextColorEnabled">
+            <FormColorPicker
+              :category="'dashboardText'"
+              :child="'input'"
+              :text-child="'menu'"
+            />
           </div>
           <v-checkbox v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon Background" />
-          <div v-if="fields.settings.dashboardSubTintEnabled">
-            <v-text-field
-              v-model="fields.dashboardIcoBg.input"
-              :value="fields.dashboardIcoBg.input"
-              :label="fields.dashboardIcoBg.name"
-              :rules="colorRules"
-              outlined
-              required
-              readonly
-            >
-              <template #append>
-                <v-menu v-model="fields.dashboardIcoBg.menu" top nudge-bottom="100" nudge-left="16" :close-on-content-click="false">
-                  <template #activator="{ on }">
-                    <v-btn
-                      small
-                      icon
-                      class="mt-0"
-                      v-on="on"
-                    >
-                      <v-icon dark>
-                        mdi-format-color-fill
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-0">
-                      <v-color-picker
-                        v-model="fields.dashboardIcoBg.input"
-                        dot-size="20"
-                        hide-mode-switch
-                        mode="hexa"
-                        value="#FFFFFF"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+          <div v-if="defaultState.settings.dashboardSubTintEnabled">
+            <FormColorPicker
+              :category="'dashboardIcoBg'"
+              :child="'input'"
+              :text-child="'menu'"
+            />
           </div>
         </v-col>
         <v-col
@@ -510,13 +282,7 @@
       <v-divider class="mx-4" />
       <v-row class="pa-3" justify="center">
         <v-col cols="12" md="6" class="pt-4">
-          <v-switch
-            v-model="fields.splash.custom"
-            inset
-            hide-details
-            class="ma-0 pa-0"
-            label="Custom Splash Logo"
-          />
+          <FormSwitch :category="'splash'" :child="'custom'" :custom-label="'Custom Splash Logo'" :classes="'ma-0 pa-0'" :should-hide-details="true" />
         </v-col>
         <v-col cols="12" md="6">
           <v-file-input
@@ -561,10 +327,19 @@
 
 <script>
 import formInfo from '~/assets/formInfo.json'
+import defaultState from '~/assets/defaultState.json'
+
+import FormSwitch from '~/components/FormComponentes/FormSwitch'
+import FormColorPicker from '~/components/FormComponentes/FormColorPicker'
 
 export default {
+  components: {
+    FormSwitch,
+    FormColorPicker
+  },
   data: () => ({
     formInfo,
+    defaultState,
     shouldError: false,
     inputErrors: [],
     tempMenu: false,
