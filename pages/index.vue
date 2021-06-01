@@ -78,7 +78,8 @@ export default {
     lastPreview: ''
   }),
   methods: {
-    async submit (fields) {
+    async submit () {
+      const fields = this.$store.state
       this.status = 'Getting ready'
       this.sub = true
       zip.remove('res')
@@ -223,7 +224,7 @@ export default {
       return await getCanvasBlob(canvas)
     },
     // Removes and recreates the main canvas
-    reconstruct (fields) {
+    reconstruct () {
       const precanvas = document.getElementById('d')
       if (precanvas) {
         document.getElementById('previewCard').style.display = 'block'
@@ -234,11 +235,12 @@ export default {
         canvas.height = 1000
         canvas.style = 'display: block;width: 50%; height: 100%;margin-left: auto;margin-right: auto;'
         document.getElementById('preview').appendChild(canvas)
-        this.renderPreview(fields)
+        this.renderPreview()
       }
     },
     // The main render function
-    async renderPreview (fields) {
+    async renderPreview () {
+      const fields = this.$store.state
       // Cache last form to avoid way too many creations
 
       // if (JSON.stringify(fields) === this.lastPreview) {

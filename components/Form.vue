@@ -286,18 +286,7 @@
           <FormSwitch :category="'splash'" :child="'custom'" :custom-label="'Custom Splash Logo'" :classes="'ma-0 pa-0'" :should-hide-details="true" />
         </v-col>
         <v-col cols="12" md="6">
-          <v-file-input
-            v-show="$store.getters.get('splash', 'custom')"
-            v-model="fields.splash.info"
-            accept="image/png"
-            label="Splash Logo"
-            show-size
-            outlined
-            dense
-            :error="shouldError"
-            :error-messages="inputErrors"
-            @change="relative_url"
-          />
+          <FormFileInput :category="'splash'" :child="'info'" :custom-label="'Splash Logo'" />
         </v-col>
       </v-row>
       <v-row justify="center" align="center">
@@ -307,7 +296,7 @@
           <v-btn
             color="#21CEF5"
             style="color: #000"
-            @click="$emit('reconstruct', fields)"
+            @click="$emit('reconstruct')"
           >
             Refresh Preview
           </v-btn>
@@ -316,7 +305,7 @@
             :disabled="!valid"
             color="#21CEF5"
             style="color: #000"
-            @click="$emit('submit', fields)"
+            @click="$emit('submit')"
           >
             Generate
           </v-btn>
@@ -335,6 +324,7 @@ import FormColorPicker from '~/components/FormComponents/FormColorPicker'
 import FormTextField from '~/components/FormComponents/FormTextField'
 import FormRadioGroup from '~/components/FormComponents/FormRadioGroup'
 import FormCheckbox from '~/components/FormComponents/FormCheckbox'
+import FormFileInput from '~/components/FormComponents/FormFileInput'
 
 export default {
   components: {
@@ -342,167 +332,21 @@ export default {
     FormColorPicker,
     FormTextField,
     FormRadioGroup,
-    FormCheckbox
+    FormCheckbox,
+    FormFileInput
   },
   data: () => ({
     formInfo,
     defaultState,
-    shouldError: false,
-    inputErrors: [],
-    tempMenu: false,
-    valid: false,
-    nameRules: [
-      v => !!v || 'Name is required'
-    ],
-    colorRules: [
-      v => !!v || 'Color is required',
-      v => v.length !== 8 || 'Color must be 7 or 9 characters',
-      v => /^#[0-9a-fA-F]{6,8}$/.test(v) || 'Color must be in a hex format'
-    ],
-    fields: {
-      splash: {
-        blob: null,
-        info: null,
-        custom: false
-      },
-      extra: {
-        gradient: {
-          enabled: false,
-          type: 'LR',
-          accent: 'Primary'
-        },
-        random: {
-          enabled: false,
-          type: 3
-        }
-      },
-      gradient: {
-        accColor2: {
-          type: 'color',
-          name: 'Secondary Accent Color',
-          input: '#FFFFFF',
-          menu: false
-        }
-      },
-      random: {
-        dIcoColor2: {
-          type: 'color',
-          name: '#2 Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false
-        },
-        dIcoColor3: {
-          type: 'color',
-          name: '#3 Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false
-        },
-        dIcoColor4: {
-          type: 'color',
-          name: '#4 Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false
-        },
-        dIcoColor5: {
-          type: 'color',
-          name: '#5 Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false
-        },
-        dIcoColor6: {
-          type: 'color',
-          name: '#6 Dashboard Icon Color',
-          input: '#FFFFFF',
-          menu: false
-        }
-      },
-      icons: {
-        dIco: 1,
-        dBgType: 1,
-        nIco: 1,
-        batteryIco: 1
-      },
-      dnIcoColors: {
-        dIcoColor: {
-          type: 'color',
-          name: 'Dashboard Icon Color',
-          input: '#FF8100',
-          menu: false,
-          notAProp: true
-        },
-        nIcoColor: {
-          type: 'color',
-          name: 'Navbar Icon Color',
-          input: '#FF00AC',
-          menu: false,
-          notAProp: true
-        }
-      },
-      normal: {
-        themeName: {
-          type: 'text',
-          name: 'Theme Name',
-          input: 'My Theme'
-        },
-        bgColor: {
-          type: 'color',
-          name: 'Background Color',
-          input: '#22004B',
-          menu: false
-        },
-        accColor: {
-          type: 'color',
-          name: 'Accent Color',
-          input: '#00FF70',
-          menu: false
-        },
-        textColor: {
-          type: 'color',
-          name: 'Text Color',
-          input: '#FFFFFF',
-          menu: false
-        },
-        sTextColor: {
-          type: 'color',
-          name: 'Secondary Text Color',
-          input: '#FFEC00',
-          menu: false
-        }
-      },
-      dashboardText: {
-        type: 'color',
-        name: 'Dashboard Text Color',
-        input: '#FFFA00',
-        menu: false
-      },
-      dashboardIcoBg: {
-        type: 'color',
-        name: 'Dashboard Icon Background Color',
-        input: '#FFFFFF',
-        menu: false
-      },
-      settings: {
-        batteryBarEnabled: false,
-        statusBarEnabled: false,
-        batteryIconEnabled: false,
-        batteryPercentageEnabled: false,
-        clockEnabled: false,
-        centeredClockEnabled: false,
-        cpuTempEnabled: false,
-        roundedCornerEnabled: false,
-        navbarBackgroundEnabled: false,
-        dashboardSubTintEnabled: false,
-        dashboardTextColorEnabled: false
-      }
-    }
+    valid: false
   }),
   created () {
     // To be fired when form gets created
     // interval was used for when it as auto updating
 
     // this.interval = setInterval(() => this.$emit('fields-changed', this.fields), 1000)
-    this.$emit('reconstruct', this.fields)
-  },
+    this.$emit('reconstruct')
+  }
   // Watch was used for real time auto updating
   // watch: {
   //   fields: {
@@ -512,25 +356,6 @@ export default {
   //     deep: true
   //   }
   // },
-  methods: {
-    relative_url (rert) {
-      const image = this.fields.splash.info
-      if (!image || typeof rert === 'undefined') {
-        this.fields.splash.info = null
-        this.fields.splash.blob = null
-        this.fields.splash.custom = false
-        this.shouldError = false
-        this.inputErrors = []
-        return
-      } else if (rert.type !== 'image/png') {
-        this.shouldError = true
-        this.inputErrors.push('Only PNG allowed')
-        return
-      }
-      this.inputErrors = []
-      this.shouldError = false
-      this.fields.splash.blob = URL.createObjectURL(image)
-    }
-  }
+
 }
 </script>
