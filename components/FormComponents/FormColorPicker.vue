@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: 'FormSwitch',
+  name: 'FormColorPicker',
   props: {
     parent: {
       type: String,

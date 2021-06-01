@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'FormSwitch',
+  name: 'FormTextField',
   props: {
     parent: {
       type: String,

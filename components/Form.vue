@@ -60,7 +60,6 @@
             :child="'input'"
             :text-child="'menu'"
             :classes="'my-4'"
-            :should-hide-details="true"
           />
         </v-col>
       </v-row>
@@ -116,7 +115,6 @@
         >
           <FormColorPicker
             :classes="'my-4'"
-            :should-hide-details="true"
             :category="i === 0 ? 'gradient' : 'random'"
             :parent="i === 0 ? 'accColor2' : 'dIcoColor2'"
             :child="'input'"
@@ -196,7 +194,7 @@
           cols="12"
           md="5"
         >
-          <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Custom Dashboard Text Color" />
+          <FormCheckbox :category="'settings'" :child="'dashboardTextColorEnabled'" :custom-label="'Custom Dashboard Text Color'" />
           <div v-if="defaultState.settings.dashboardTextColorEnabled">
             <FormColorPicker
               :category="'dashboardText'"
@@ -204,7 +202,7 @@
               :text-child="'menu'"
             />
           </div>
-          <v-checkbox v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon Background" />
+          <FormCheckbox :category="'settings'" :child="'dashboardSubTintEnabled'" :custom-label="'Dashboard Icon Background'" />
           <div v-if="defaultState.settings.dashboardSubTintEnabled">
             <FormColorPicker
               :category="'dashboardIcoBg'"
@@ -245,8 +243,8 @@
       <v-divider class="mx-4" />
       <v-row class="pa-3">
         <v-col md="5">
-          <v-checkbox v-model="fields.settings.statusBarEnabled" label="Status Bar" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryIconEnabled" label="Show Bettery Icon" />
+          <FormCheckbox :category="'settings'" :child="'statusBarEnabled'" :custom-label="'Status Bar'" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'statusBarEnabled')" :category="'settings'" :child="'batteryIconEnabled'" :custom-label="'Show Bettery Icon'" />
           <FormRadioGroup
             v-if="$store.getters.get('settings', 'batteryIconEnabled')"
             :category="'icons'"
@@ -262,10 +260,10 @@
               :value="i+1"
             />
           </FormRadioGroup>
-          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.clockEnabled" label="Show Clock" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled && fields.settings.clockEnabled" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
-          <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.cpuTempEnabled" label="Show CPU Temp" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'statusBarEnabled')" :category="'settings'" :child="'batteryPercentageEnabled'" :custom-label="'Show Battery Percentage'" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'statusBarEnabled')" :category="'settings'" :child="'clockEnabled'" :custom-label="'Show Clock'" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'statusBarEnabled') && $store.getters.get('settings', 'clockEnabled')" :category="'settings'" :child="'centeredClockEnabled'" :custom-label="'Centered Clock'" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'statusBarEnabled')" :category="'settings'" :child="'cpuTempEnabled'" :custom-label="'Show CPU Temp'" />
         </v-col>
         <v-col
           cols="2"
@@ -275,11 +273,11 @@
           <v-divider vertical class="my-0" />
         </v-col>
         <v-col md="5">
-          <v-checkbox v-model="fields.settings.batteryBarEnabled" label="Show Battery Bar" />
-          <v-checkbox v-model="fields.settings.roundedCornerEnabled" label="Rounded Corners" />
-          <v-checkbox v-model="fields.settings.navbarBackgroundEnabled" label="Nav-Bar Background" />
-          <v-checkbox v-model="fields.settings.dashboardTextColorEnabled" label="Dashboard Text Color" />
-          <v-checkbox v-show="fields.settings.dashboardTextColorEnabled" v-model="fields.settings.dashboardSubTintEnabled" label="Dashboard Icon BG" />
+          <FormCheckbox :category="'settings'" :child="'batteryBarEnabled'" :custom-label="'Show Battery Bar'" />
+          <FormCheckbox :category="'settings'" :child="'roundedCornerEnabled'" :custom-label="'Rounded Corners'" />
+          <FormCheckbox :category="'settings'" :child="'navbarBackgroundEnabled'" :custom-label="'Nav-Bar Background'" />
+          <FormCheckbox :category="'settings'" :child="'dashboardTextColorEnabled'" :custom-label="'Dashboard Text Color'" />
+          <FormCheckbox v-show="$store.getters.get('settings', 'dashboardTextColorEnabled')" :category="'settings'" :child="'dashboardSubTintEnabled'" :custom-label="'Dashboard Icon BG'" />
         </v-col>
       </v-row>
       <v-divider class="mx-4" />
@@ -289,7 +287,7 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-file-input
-            v-show="fields.splash.custom"
+            v-show="$store.getters.get('splash', 'custom')"
             v-model="fields.splash.info"
             accept="image/png"
             label="Splash Logo"
@@ -336,13 +334,15 @@ import FormSwitch from '~/components/FormComponents/FormSwitch'
 import FormColorPicker from '~/components/FormComponents/FormColorPicker'
 import FormTextField from '~/components/FormComponents/FormTextField'
 import FormRadioGroup from '~/components/FormComponents/FormRadioGroup'
+import FormCheckbox from '~/components/FormComponents/FormCheckbox'
 
 export default {
   components: {
     FormSwitch,
     FormColorPicker,
     FormTextField,
-    FormRadioGroup
+    FormRadioGroup,
+    FormCheckbox
   },
   data: () => ({
     formInfo,

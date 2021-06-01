@@ -1,19 +1,10 @@
 <template>
-  <v-radio-group
-    v-model="radioModel"
-    :mandatory="shouldBeMandatory"
-    :label="customLabel"
-    :class="classes"
-    :row="shouldBeRow"
-    :hide-details="shouldHideDetails"
-  >
-    <slot />
-  </v-radio-group>
+  <v-checkbox v-model="inputModel" :label="customLabel" :class="classes" />
 </template>
 
 <script>
 export default {
-  name: 'FormRadioGroup',
+  name: 'FormCheckbox',
   props: {
     parent: {
       type: String,
@@ -34,22 +25,10 @@ export default {
     customLabel: {
       type: String,
       required: true
-    },
-    shouldHideDetails: {
-      type: Boolean,
-      default: false
-    },
-    shouldBeRow: {
-      type: Boolean,
-      default: false
-    },
-    shouldBeMandatory: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
-    radioModel: {
+    inputModel: {
       get () {
         return this.$store.getters.get(
           this.category + (this.parent ? '.' + this.parent : ''),
