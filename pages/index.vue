@@ -239,6 +239,7 @@ export default {
       }
     },
     // The main render function
+    // This is a mess.
     async renderPreview () {
       const fields = this.$store.state
       // Cache last form to avoid way too many creations
