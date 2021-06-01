@@ -21,14 +21,7 @@
             <FormColorPicker :category="'normal'" :parent="key" :child="'input'" :text-child="'menu'" />
           </div>
           <div v-else>
-            <v-text-field
-              v-model="value.input"
-              :rules="nameRules"
-              :label="value.name"
-              :value="value.input"
-              outlined
-              required
-            />
+            <FormTextField :category="'normal'" :parent="key" :child="'input'" />
           </div>
         </v-col>
       </v-row>
@@ -331,11 +324,13 @@ import defaultState from '~/assets/defaultState.json'
 
 import FormSwitch from '~/components/FormComponentes/FormSwitch'
 import FormColorPicker from '~/components/FormComponentes/FormColorPicker'
+import FormTextField from '~/components/FormComponentes/FormTextField'
 
 export default {
   components: {
     FormSwitch,
-    FormColorPicker
+    FormColorPicker,
+    FormTextField
   },
   data: () => ({
     formInfo,
