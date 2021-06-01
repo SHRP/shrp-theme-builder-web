@@ -25,16 +25,18 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider v-show="fields.extra.random.enabled" class="mx-4" />
-      <v-row v-show="fields.extra.random.enabled">
+      <v-divider v-show="$store.getters.get('extra.random', 'enabled')" class="mx-4" />
+      <v-row v-show="$store.getters.get('extra.random', 'enabled')">
         <v-col cols="12">
-          <v-radio-group
-            v-model="fields.extra.random.type"
-            mandatory
-            label="Random Colors"
-            class="mt-4"
-            row
-            hide-details
+          <FormRadioGroup
+            :category="'extra'"
+            :parent="'random'"
+            :child="'type'"
+            :should-be-row="true"
+            :should-be-mandatory="true"
+            :should-hide-details="true"
+            :classes="'mt-4'"
+            :custom-label="'Random Colors'"
           >
             <v-radio
               v-for="type in formInfo.randomType"
@@ -42,7 +44,7 @@
               :label="type.toString()"
               :value="type"
             />
-          </v-radio-group>
+          </FormRadioGroup>
         </v-col>
         <v-col
           v-for="(value, key, i) in defaultState.random"
@@ -65,13 +67,15 @@
       <v-divider v-show="$store.getters.get('extra.gradient', 'enabled')" class="mx-4" />
       <v-row v-show="$store.getters.get('extra.gradient', 'enabled')">
         <v-col cols="12">
-          <v-radio-group
-            v-model="fields.extra.gradient.type"
-            mandatory
-            label="Gradient Type"
-            class="mt-4"
-            row
-            hide-details
+          <FormRadioGroup
+            :category="'extra'"
+            :parent="'gradient'"
+            :child="'type'"
+            :should-be-row="true"
+            :should-be-mandatory="true"
+            :should-hide-details="true"
+            :classes="'mt-4'"
+            :custom-label="'Gradient Type'"
           >
             <v-tooltip v-for="(type, key) in formInfo.gradientType" :key="key" bottom>
               <template #activator="{ on, attrs }">
@@ -84,14 +88,16 @@
               </template>
               <span>{{ type }}</span>
             </v-tooltip>
-          </v-radio-group>
-          <v-radio-group
-            v-model="fields.extra.gradient.accent"
-            mandatory
-            label="Main Accent"
-            class="mt-4"
-            row
-            hide-details
+          </FormRadioGroup>
+          <FormRadioGroup
+            :category="'extra'"
+            :parent="'gradient'"
+            :child="'accent'"
+            :should-be-row="true"
+            :should-be-mandatory="true"
+            :should-hide-details="true"
+            :classes="'mt-4'"
+            :custom-label="'Main Accent'"
           >
             <v-radio
               v-for="type in formInfo.gradientAccent"
@@ -99,7 +105,7 @@
               :label="type"
               :value="type.toLowerCase()"
             />
-          </v-radio-group>
+          </FormRadioGroup>
         </v-col>
         <v-col
           v-for="(value, i) in [defaultState.gradient.accColor2, defaultState.random.dIcoColor2]"
@@ -125,11 +131,12 @@
           cols="12"
           md="5"
         >
-          <v-radio-group
-            v-model="fields.icons.dIco"
-            mandatory
-            label="Dashboard Icon Style"
-            class="mt-0"
+          <FormRadioGroup
+            :category="'icons'"
+            :child="'dIco'"
+            :should-be-mandatory="true"
+            :classes="'mt-0'"
+            :custom-label="'Dashboard Icon Style'"
           >
             <v-radio
               v-for="(style, i) in formInfo.dIco"
@@ -137,7 +144,7 @@
               :label="style"
               :value="i+1"
             />
-          </v-radio-group>
+          </FormRadioGroup>
           <div>
             <FormColorPicker
               :category="'dnIcoColors'"
@@ -158,11 +165,12 @@
           cols="12"
           md="5"
         >
-          <v-radio-group
-            v-model="fields.icons.nIco"
-            mandatory
-            label="Nav-Bar Icon Style"
-            class="mt-0"
+          <FormRadioGroup
+            :category="'icons'"
+            :child="'nIco'"
+            :should-be-mandatory="true"
+            :classes="'mt-0'"
+            :custom-label="'Nav-Bar Icon Style'"
           >
             <v-radio
               v-for="(style, i) in formInfo.nIco"
@@ -170,7 +178,7 @@
               :label="style"
               :value="i+1"
             />
-          </v-radio-group>
+          </FormRadioGroup>
           <div>
             <FormColorPicker
               :category="'dnIcoColors'"
@@ -217,12 +225,13 @@
           cols="12"
           md="5"
         >
-          <v-radio-group
-            v-if="fields.settings.dashboardSubTintEnabled"
-            v-model="fields.icons.dBgType"
-            mandatory
-            label="Dashboard icon background style"
-            class="mt-0"
+          <FormRadioGroup
+            v-if="$store.getters.get('settings', 'dashboardSubTintEnabled')"
+            :category="'icons'"
+            :child="'dBgType'"
+            :should-be-mandatory="true"
+            :classes="'mt-0'"
+            :custom-label="'Dashboard icon background style'"
           >
             <v-radio
               v-for="(style, i) in formInfo.dBgType"
@@ -230,7 +239,7 @@
               :label="style"
               :value="i+1"
             />
-          </v-radio-group>
+          </FormRadioGroup>
         </v-col>
       </v-row>
       <v-divider class="mx-4" />
@@ -238,12 +247,13 @@
         <v-col md="5">
           <v-checkbox v-model="fields.settings.statusBarEnabled" label="Status Bar" />
           <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryIconEnabled" label="Show Bettery Icon" />
-          <v-radio-group
-            v-if="fields.settings.batteryIconEnabled"
-            v-model="fields.icons.batteryIco"
-            mandatory
-            label="Battery Icon Style"
-            class="mt-0"
+          <FormRadioGroup
+            v-if="$store.getters.get('settings', 'batteryIconEnabled')"
+            :category="'icons'"
+            :child="'batteryIco'"
+            :should-be-mandatory="true"
+            :classes="'mt-0'"
+            :custom-label="'Battery Icon Style'"
           >
             <v-radio
               v-for="(style, i) in formInfo.batteryIco"
@@ -251,7 +261,7 @@
               :label="style"
               :value="i+1"
             />
-          </v-radio-group>
+          </FormRadioGroup>
           <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.batteryPercentageEnabled" label="Show Battery Percentage" />
           <v-checkbox v-show="fields.settings.statusBarEnabled" v-model="fields.settings.clockEnabled" label="Show Clock" />
           <v-checkbox v-show="fields.settings.statusBarEnabled && fields.settings.clockEnabled" v-model="fields.settings.centeredClockEnabled" label="Centered Clock" />
@@ -322,15 +332,17 @@
 import formInfo from '~/assets/formInfo.json'
 import defaultState from '~/assets/defaultState.json'
 
-import FormSwitch from '~/components/FormComponentes/FormSwitch'
-import FormColorPicker from '~/components/FormComponentes/FormColorPicker'
-import FormTextField from '~/components/FormComponentes/FormTextField'
+import FormSwitch from '~/components/FormComponents/FormSwitch'
+import FormColorPicker from '~/components/FormComponents/FormColorPicker'
+import FormTextField from '~/components/FormComponents/FormTextField'
+import FormRadioGroup from '~/components/FormComponents/FormRadioGroup'
 
 export default {
   components: {
     FormSwitch,
     FormColorPicker,
-    FormTextField
+    FormTextField,
+    FormRadioGroup
   },
   data: () => ({
     formInfo,
