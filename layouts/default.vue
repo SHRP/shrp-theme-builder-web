@@ -38,7 +38,7 @@ export default {
       buttons: [
         {
           title: 'SHRP',
-          url: 'https://shrp.team/'
+          url: 'https://github.com/SHRP'
         },
         {
           title: 'Guide',
